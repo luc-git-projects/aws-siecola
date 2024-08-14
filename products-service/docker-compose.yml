@@ -1,0 +1,9 @@
+version: '3.9'
+volumes:
+  database:
+services:
+  db:
+    image: productsservice:1.0.0
+    container_name: product-service
+    ports:
+      - "8080:8080"

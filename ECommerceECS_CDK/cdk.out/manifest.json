@@ -1,0 +1,90 @@
+{
+  "version": "36.0.0",
+  "artifacts": {
+    "Ecr.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "Ecr.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "Ecr": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://014498656507/us-east-2",
+      "properties": {
+        "templateFile": "Ecr.template.json",
+        "terminationProtection": false,
+        "tags": {
+          "cost": "ECommerceInfra",
+          "team": "SiecolaCode"
+        },
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::014498656507:role/cdk-hnb659fds-deploy-role-014498656507-us-east-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::014498656507:role/cdk-hnb659fds-cfn-exec-role-014498656507-us-east-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-014498656507-us-east-2/3ed18babc24ccf70b12bb16b23dfbac7e4e4e69088e14576500a2cd1e86e974e.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "Ecr.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::014498656507:role/cdk-hnb659fds-lookup-role-014498656507-us-east-2",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "Ecr.assets"
+      ],
+      "metadata": {
+        "/Ecr": [
+          {
+            "type": "aws:cdk:stack-tags",
+            "data": [
+              {
+                "Key": "cost",
+                "Value": "ECommerceInfra"
+              },
+              {
+                "Key": "team",
+                "Value": "SiecolaCode"
+              }
+            ]
+          }
+        ],
+        "/Ecr/Productsservice/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Productsservice530787E4"
+          }
+        ],
+        "/Ecr/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/Ecr/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/Ecr/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "Ecr"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
