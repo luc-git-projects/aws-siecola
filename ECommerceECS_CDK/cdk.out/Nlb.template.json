@@ -1,0 +1,140 @@
+{
+ "Resources": {
+  "NlbBCDB97FE": {
+   "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+   "Properties": {
+    "LoadBalancerAttributes": [
+     {
+      "Key": "deletion_protection.enabled",
+      "Value": "false"
+     }
+    ],
+    "Name": "ECommerceNlb",
+    "Scheme": "internal",
+    "Subnets": [
+     {
+      "Fn::ImportValue": "Vpc:ExportsOutputRefVpcPrivateSubnet1Subnet536B997AFD4CC940"
+     },
+     {
+      "Fn::ImportValue": "Vpc:ExportsOutputRefVpcPrivateSubnet2Subnet3788AAA1380949A3"
+     }
+    ],
+    "Type": "network"
+   },
+   "Metadata": {
+    "aws:cdk:path": "Nlb/Nlb/Resource"
+   }
+  },
+  "VpcLink42ED6FF0": {
+   "Type": "AWS::ApiGateway::VpcLink",
+   "Properties": {
+    "Name": "NlbVpcLinkEC87EF2A",
+    "TargetArns": [
+     {
+      "Ref": "NlbBCDB97FE"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "Nlb/VpcLink/Resource"
+   }
+  },
+  "Alb16C2F182": {
+   "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+   "Properties": {
+    "LoadBalancerAttributes": [
+     {
+      "Key": "deletion_protection.enabled",
+      "Value": "false"
+     }
+    ],
+    "Name": "ECommerceAlb",
+    "Scheme": "internal",
+    "SecurityGroups": [
+     {
+      "Fn::GetAtt": [
+       "AlbSecurityGroup580F65A6",
+       "GroupId"
+      ]
+     }
+    ],
+    "Subnets": [
+     {
+      "Fn::ImportValue": "Vpc:ExportsOutputRefVpcPrivateSubnet1Subnet536B997AFD4CC940"
+     },
+     {
+      "Fn::ImportValue": "Vpc:ExportsOutputRefVpcPrivateSubnet2Subnet3788AAA1380949A3"
+     }
+    ],
+    "Type": "application"
+   },
+   "Metadata": {
+    "aws:cdk:path": "Nlb/Alb/Resource"
+   }
+  },
+  "AlbSecurityGroup580F65A6": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Automatically created Security Group for ELB NlbAlbC1908761",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "255.255.255.255/32",
+      "Description": "Disallow all traffic",
+      "FromPort": 252,
+      "IpProtocol": "icmp",
+      "ToPort": 86
+     }
+    ],
+    "VpcId": {
+     "Fn::ImportValue": "Vpc:ExportsOutputRefVpc8378EB38272D6E3A"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Nlb/Alb/SecurityGroup/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1XLQQrCMBAF0LO4T0db8QDqQpDiQsGtjNNRxsYkJGlLCbm7VN10Nf+/z1RQbkpYLXAIBTVtoeUO6RKRWoVDuCXWGKKQttjcUaMhMc++gnTiOFjf1hab3dfZq/3DzPrWOS2EUezMs0InT4w84Ajp6qgW007P/5gVUwXpwtR5iePB285N8wxynujMwXaeOKsj9risSljBevEKIoXvTJQ3w/l3P6gfFgXoAAAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "Nlb/CDKMetadata/Default"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

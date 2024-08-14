@@ -21,12 +21,41 @@ public class ECommerceEcsCdkApp {
         infraTags.put("team", "SiecolaCode");
         infraTags.put("cost", "ECommerceInfra");
 
-        StackProps stackProps = StackProps.builder()
+
+
+        StackProps ecrStackProps = StackProps.builder()
                 .env(environment)
                 .tags(infraTags)
                 .build();
 
-        EcrStack ecrStack = new EcrStack(app, "Ecr", stackProps);
+        EcrStack ecrStack = new EcrStack(app, "Ecr", ecrStackProps);
+
+        StackProps vpcStackProps = StackProps.builder()
+                .env(environment)
+                .tags(infraTags)
+                .build();
+
+        VpcStack vpcStack = new VpcStack(app,"Vpc", vpcStackProps);
+
+
+
+        StackProps clusterStackProps = StackProps.builder()
+                .env(environment)
+                .tags(infraTags)
+                .build();
+
+        ClusterStack clusterStack = new ClusterStack(app, "Cluster", clusterStackProps, new ClusterStackProps(vpcStack.getVpc()));
+        clusterStack.addDependency(vpcStack);
+
+
+
+        StackProps nlbStackProps = StackProps.builder()
+                .env(environment)
+                .tags(infraTags)
+                .build();
+
+        NlbStack nlbStack = new NlbStack(app, "Nlb", nlbStackProps, new NblStackProps(vpcStack.getVpc()));
+        nlbStack.addDependency(vpcStack);
 
         app.synth();
     }

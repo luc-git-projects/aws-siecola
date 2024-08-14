@@ -1,2 +1,7 @@
+com/myorg/NblStackProps.class
+com/myorg/ClusterStackProps.class
+com/myorg/ClusterStack.class
+com/myorg/VpcStack.class
 com/myorg/ECommerceEcsCdkApp.class
+com/myorg/NlbStack.class
 com/myorg/EcrStack.class
