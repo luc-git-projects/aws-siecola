@@ -25,6 +25,41 @@
     "aws:cdk:path": "Nlb/Nlb/Resource"
    }
   },
+  "NlbProductsServiceNlbListenerFD70A401": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "DefaultActions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "NlbProductsServiceNlbListenerProductsServiceNlbTargetGroup8BF1265C"
+      },
+      "Type": "forward"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "NlbBCDB97FE"
+    },
+    "Port": 8080,
+    "Protocol": "TCP"
+   },
+   "Metadata": {
+    "aws:cdk:path": "Nlb/Nlb/ProductsServiceNlbListener/Resource"
+   }
+  },
+  "NlbProductsServiceNlbListenerProductsServiceNlbTargetGroup8BF1265C": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "Port": 8080,
+    "Protocol": "TCP",
+    "TargetType": "ip",
+    "VpcId": {
+     "Fn::ImportValue": "Vpc:ExportsOutputRefVpc8378EB38272D6E3A"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Nlb/Nlb/ProductsServiceNlbListener/ProductsServiceNlbTargetGroup/Resource"
+   }
+  },
   "VpcLink42ED6FF0": {
    "Type": "AWS::ApiGateway::VpcLink",
    "Properties": {
@@ -76,13 +111,13 @@
    "Type": "AWS::EC2::SecurityGroup",
    "Properties": {
     "GroupDescription": "Automatically created Security Group for ELB NlbAlbC1908761",
-    "SecurityGroupEgress": [
+    "SecurityGroupIngress": [
      {
-      "CidrIp": "255.255.255.255/32",
-      "Description": "Disallow all traffic",
-      "FromPort": 252,
-      "IpProtocol": "icmp",
-      "ToPort": 86
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow from anyone on port 8080",
+      "FromPort": 8080,
+      "IpProtocol": "tcp",
+      "ToPort": 8080
      }
     ],
     "VpcId": {
@@ -93,13 +128,93 @@
     "aws:cdk:path": "Nlb/Alb/SecurityGroup/Resource"
    }
   },
+  "AlbProductsServiceAlbListenerE6E93AA4": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "DefaultActions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "AlbProductsServiceAlbListenerProductsServiceAlbTargetGroup790F861C"
+      },
+      "Type": "forward"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "Alb16C2F182"
+    },
+    "Port": 8080,
+    "Protocol": "HTTP"
+   },
+   "Metadata": {
+    "aws:cdk:path": "Nlb/Alb/ProductsServiceAlbListener/Resource"
+   }
+  },
+  "AlbProductsServiceAlbListenerProductsServiceAlbTargetGroup790F861C": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "HealthCheckEnabled": true,
+    "HealthCheckIntervalSeconds": 30,
+    "HealthCheckPath": "/actuator/health",
+    "HealthCheckPort": "8080",
+    "HealthCheckTimeoutSeconds": 10,
+    "Name": "productsServiceAlb",
+    "Port": 8080,
+    "Protocol": "HTTP",
+    "TargetGroupAttributes": [
+     {
+      "Key": "deregistration_delay.timeout_seconds",
+      "Value": "30"
+     },
+     {
+      "Key": "stickiness.enabled",
+      "Value": "false"
+     }
+    ],
+    "TargetType": "ip",
+    "VpcId": {
+     "Fn::ImportValue": "Vpc:ExportsOutputRefVpc8378EB38272D6E3A"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Nlb/Alb/ProductsServiceAlbListener/ProductsServiceAlbTargetGroup/Resource"
+   }
+  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1XLQQrCMBAF0LO4T0db8QDqQpDiQsGtjNNRxsYkJGlLCbm7VN10Nf+/z1RQbkpYLXAIBTVtoeUO6RKRWoVDuCXWGKKQttjcUaMhMc++gnTiOFjf1hab3dfZq/3DzPrWOS2EUezMs0InT4w84Ajp6qgW007P/5gVUwXpwtR5iePB285N8wxynujMwXaeOKsj9risSljBevEKIoXvTJQ3w/l3P6gfFgXoAAAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WOQU/DMAyFf8vuqVmL+AHAAQlNHDbEFXmuqUyzJErcVVOU/44KLWpPfu971rMbqB9q2O9wTBW1fWXlDPmkSL3BMX1mtphUyHpsz2jRkbju2kB+Yx197A8e26dfztE8f7mNX3YkKbs5X/ScvWPsWF+iH8IUr+1jCFYIVfy2dc2XthVbVRSDQTpUHvEG+SPQQVw/nZllMUwN5BPTEEVv/19sQCkTOnLyQyQu5hWveNfUsIf73XcSqeLgVC4Mx7/5A3FwaytRAQAA"
    },
    "Metadata": {
     "aws:cdk:path": "Nlb/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ExportsOutputRefAlbProductsServiceAlbListenerProductsServiceAlbTargetGroup790F861CA66747AE": {
+   "Value": {
+    "Ref": "AlbProductsServiceAlbListenerProductsServiceAlbTargetGroup790F861C"
+   },
+   "Export": {
+    "Name": "Nlb:ExportsOutputRefAlbProductsServiceAlbListenerProductsServiceAlbTargetGroup790F861CA66747AE"
+   }
+  },
+  "ExportsOutputRefNlbProductsServiceNlbListenerProductsServiceNlbTargetGroup8BF1265C563693BE": {
+   "Value": {
+    "Ref": "NlbProductsServiceNlbListenerProductsServiceNlbTargetGroup8BF1265C"
+   },
+   "Export": {
+    "Name": "Nlb:ExportsOutputRefNlbProductsServiceNlbListenerProductsServiceNlbTargetGroup8BF1265C563693BE"
+   }
+  },
+  "ExportsOutputFnGetAttAlbSecurityGroup580F65A6GroupId37F3639D": {
+   "Value": {
+    "Fn::GetAtt": [
+     "AlbSecurityGroup580F65A6",
+     "GroupId"
+    ]
+   },
+   "Export": {
+    "Name": "Nlb:ExportsOutputFnGetAttAlbSecurityGroup580F65A6GroupId37F3639D"
    }
   }
  },

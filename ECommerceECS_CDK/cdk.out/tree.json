@@ -52,6 +52,32 @@
               "version": "10.3.0"
             }
           },
+          "Exports": {
+            "id": "Exports",
+            "path": "Ecr/Exports",
+            "children": {
+              "Output{\"Fn::GetAtt\":[\"Productsservice530787E4\",\"Arn\"]}": {
+                "id": "Output{\"Fn::GetAtt\":[\"Productsservice530787E4\",\"Arn\"]}",
+                "path": "Ecr/Exports/Output{\"Fn::GetAtt\":[\"Productsservice530787E4\",\"Arn\"]}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.151.0"
+                }
+              },
+              "Output{\"Ref\":\"Productsservice530787E4\"}": {
+                "id": "Output{\"Ref\":\"Productsservice530787E4\"}",
+                "path": "Ecr/Exports/Output{\"Ref\":\"Productsservice530787E4\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.151.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
           "BootstrapVersion": {
             "id": "BootstrapVersion",
             "path": "Ecr/BootstrapVersion",
@@ -871,6 +897,24 @@
               "version": "10.3.0"
             }
           },
+          "Exports": {
+            "id": "Exports",
+            "path": "Cluster/Exports",
+            "children": {
+              "Output{\"Ref\":\"ClusterEB0386A7\"}": {
+                "id": "Output{\"Ref\":\"ClusterEB0386A7\"}",
+                "path": "Cluster/Exports/Output{\"Ref\":\"ClusterEB0386A7\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.151.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
           "BootstrapVersion": {
             "id": "BootstrapVersion",
             "path": "Cluster/BootstrapVersion",
@@ -928,6 +972,71 @@
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnLoadBalancer",
+                  "version": "2.151.0"
+                }
+              },
+              "ProductsServiceNlbListener": {
+                "id": "ProductsServiceNlbListener",
+                "path": "Nlb/Nlb/ProductsServiceNlbListener",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "Nlb/Nlb/ProductsServiceNlbListener/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::Listener",
+                      "aws:cdk:cloudformation:props": {
+                        "defaultActions": [
+                          {
+                            "type": "forward",
+                            "targetGroupArn": {
+                              "Ref": "NlbProductsServiceNlbListenerProductsServiceNlbTargetGroup8BF1265C"
+                            }
+                          }
+                        ],
+                        "loadBalancerArn": {
+                          "Ref": "NlbBCDB97FE"
+                        },
+                        "port": 8080,
+                        "protocol": "TCP"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListener",
+                      "version": "2.151.0"
+                    }
+                  },
+                  "ProductsServiceNlbTargetGroup": {
+                    "id": "ProductsServiceNlbTargetGroup",
+                    "path": "Nlb/Nlb/ProductsServiceNlbListener/ProductsServiceNlbTargetGroup",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "Nlb/Nlb/ProductsServiceNlbListener/ProductsServiceNlbTargetGroup/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+                          "aws:cdk:cloudformation:props": {
+                            "port": 8080,
+                            "protocol": "TCP",
+                            "targetType": "ip",
+                            "vpcId": {
+                              "Fn::ImportValue": "Vpc:ExportsOutputRefVpc8378EB38272D6E3A"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnTargetGroup",
+                          "version": "2.151.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.NetworkTargetGroup",
+                      "version": "2.151.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.NetworkListener",
                   "version": "2.151.0"
                 }
               }
@@ -1019,13 +1128,13 @@
                       "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
                       "aws:cdk:cloudformation:props": {
                         "groupDescription": "Automatically created Security Group for ELB NlbAlbC1908761",
-                        "securityGroupEgress": [
+                        "securityGroupIngress": [
                           {
-                            "cidrIp": "255.255.255.255/32",
-                            "description": "Disallow all traffic",
-                            "ipProtocol": "icmp",
-                            "fromPort": 252,
-                            "toPort": 86
+                            "cidrIp": "0.0.0.0/0",
+                            "ipProtocol": "tcp",
+                            "fromPort": 8080,
+                            "toPort": 8080,
+                            "description": "Allow from anyone on port 8080"
                           }
                         ],
                         "vpcId": {
@@ -1041,6 +1150,87 @@
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+                  "version": "2.151.0"
+                }
+              },
+              "ProductsServiceAlbListener": {
+                "id": "ProductsServiceAlbListener",
+                "path": "Nlb/Alb/ProductsServiceAlbListener",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "Nlb/Alb/ProductsServiceAlbListener/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::Listener",
+                      "aws:cdk:cloudformation:props": {
+                        "defaultActions": [
+                          {
+                            "type": "forward",
+                            "targetGroupArn": {
+                              "Ref": "AlbProductsServiceAlbListenerProductsServiceAlbTargetGroup790F861C"
+                            }
+                          }
+                        ],
+                        "loadBalancerArn": {
+                          "Ref": "Alb16C2F182"
+                        },
+                        "port": 8080,
+                        "protocol": "HTTP"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListener",
+                      "version": "2.151.0"
+                    }
+                  },
+                  "ProductsServiceAlbTargetGroup": {
+                    "id": "ProductsServiceAlbTargetGroup",
+                    "path": "Nlb/Alb/ProductsServiceAlbListener/ProductsServiceAlbTargetGroup",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "Nlb/Alb/ProductsServiceAlbListener/ProductsServiceAlbTargetGroup/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+                          "aws:cdk:cloudformation:props": {
+                            "healthCheckEnabled": true,
+                            "healthCheckIntervalSeconds": 30,
+                            "healthCheckPath": "/actuator/health",
+                            "healthCheckPort": "8080",
+                            "healthCheckTimeoutSeconds": 10,
+                            "name": "productsServiceAlb",
+                            "port": 8080,
+                            "protocol": "HTTP",
+                            "targetGroupAttributes": [
+                              {
+                                "key": "deregistration_delay.timeout_seconds",
+                                "value": "30"
+                              },
+                              {
+                                "key": "stickiness.enabled",
+                                "value": "false"
+                              }
+                            ],
+                            "targetType": "ip",
+                            "vpcId": {
+                              "Fn::ImportValue": "Vpc:ExportsOutputRefVpc8378EB38272D6E3A"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnTargetGroup",
+                          "version": "2.151.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup",
+                      "version": "2.151.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
                   "version": "2.151.0"
                 }
               }
@@ -1068,6 +1258,40 @@
               "version": "10.3.0"
             }
           },
+          "Exports": {
+            "id": "Exports",
+            "path": "Nlb/Exports",
+            "children": {
+              "Output{\"Ref\":\"AlbProductsServiceAlbListenerProductsServiceAlbTargetGroup790F861C\"}": {
+                "id": "Output{\"Ref\":\"AlbProductsServiceAlbListenerProductsServiceAlbTargetGroup790F861C\"}",
+                "path": "Nlb/Exports/Output{\"Ref\":\"AlbProductsServiceAlbListenerProductsServiceAlbTargetGroup790F861C\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.151.0"
+                }
+              },
+              "Output{\"Ref\":\"NlbProductsServiceNlbListenerProductsServiceNlbTargetGroup8BF1265C\"}": {
+                "id": "Output{\"Ref\":\"NlbProductsServiceNlbListenerProductsServiceNlbTargetGroup8BF1265C\"}",
+                "path": "Nlb/Exports/Output{\"Ref\":\"NlbProductsServiceNlbListenerProductsServiceNlbTargetGroup8BF1265C\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.151.0"
+                }
+              },
+              "Output{\"Fn::GetAtt\":[\"AlbSecurityGroup580F65A6\",\"GroupId\"]}": {
+                "id": "Output{\"Fn::GetAtt\":[\"AlbSecurityGroup580F65A6\",\"GroupId\"]}",
+                "path": "Nlb/Exports/Output{\"Fn::GetAtt\":[\"AlbSecurityGroup580F65A6\",\"GroupId\"]}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.151.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
           "BootstrapVersion": {
             "id": "BootstrapVersion",
             "path": "Nlb/BootstrapVersion",
@@ -1079,6 +1303,515 @@
           "CheckBootstrapVersion": {
             "id": "CheckBootstrapVersion",
             "path": "Nlb/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.151.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.151.0"
+        }
+      },
+      "ProductsService": {
+        "id": "ProductsService",
+        "path": "ProductsService",
+        "children": {
+          "TaskDefinition": {
+            "id": "TaskDefinition",
+            "path": "ProductsService/TaskDefinition",
+            "children": {
+              "TaskRole": {
+                "id": "TaskRole",
+                "path": "ProductsService/TaskDefinition/TaskRole",
+                "children": {
+                  "ImportTaskRole": {
+                    "id": "ImportTaskRole",
+                    "path": "ProductsService/TaskDefinition/TaskRole/ImportTaskRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.151.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ProductsService/TaskDefinition/TaskRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "ecs-tasks.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.151.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.151.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "ProductsService/TaskDefinition/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::TaskDefinition",
+                  "aws:cdk:cloudformation:props": {
+                    "containerDefinitions": [
+                      {
+                        "essential": true,
+                        "image": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              {
+                                "Fn::Select": [
+                                  4,
+                                  {
+                                    "Fn::Split": [
+                                      ":",
+                                      {
+                                        "Fn::ImportValue": "Ecr:ExportsOutputFnGetAttProductsservice530787E4Arn55BFA5C2"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              ".dkr.ecr.",
+                              {
+                                "Fn::Select": [
+                                  3,
+                                  {
+                                    "Fn::Split": [
+                                      ":",
+                                      {
+                                        "Fn::ImportValue": "Ecr:ExportsOutputFnGetAttProductsservice530787E4Arn55BFA5C2"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              ".",
+                              {
+                                "Ref": "AWS::URLSuffix"
+                              },
+                              "/",
+                              {
+                                "Fn::ImportValue": "Ecr:ExportsOutputRefProductsservice530787E43817F926"
+                              },
+                              ":1.0.0"
+                            ]
+                          ]
+                        },
+                        "name": "productsService",
+                        "portMappings": [
+                          {
+                            "containerPort": 8080,
+                            "protocol": "tcp"
+                          }
+                        ],
+                        "logConfiguration": {
+                          "logDriver": "awslogs",
+                          "options": {
+                            "awslogs-group": {
+                              "Ref": "LogGroupF5B46931"
+                            },
+                            "awslogs-stream-prefix": "ProductsService",
+                            "awslogs-region": "us-east-2"
+                          }
+                        },
+                        "environment": [
+                          {
+                            "name": "SERVER_PORT",
+                            "value": "8080"
+                          }
+                        ]
+                      }
+                    ],
+                    "cpu": "512",
+                    "executionRoleArn": {
+                      "Fn::GetAtt": [
+                        "TaskDefinitionExecutionRole8D61C2FB",
+                        "Arn"
+                      ]
+                    },
+                    "family": "products-service",
+                    "memory": "1024",
+                    "networkMode": "awsvpc",
+                    "requiresCompatibilities": [
+                      "FARGATE"
+                    ],
+                    "taskRoleArn": {
+                      "Fn::GetAtt": [
+                        "TaskDefinitionTaskRoleFD40A61D",
+                        "Arn"
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnTaskDefinition",
+                  "version": "2.151.0"
+                }
+              },
+              "ProductsServiceContainer": {
+                "id": "ProductsServiceContainer",
+                "path": "ProductsService/TaskDefinition/ProductsServiceContainer",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+                  "version": "2.151.0"
+                }
+              },
+              "ExecutionRole": {
+                "id": "ExecutionRole",
+                "path": "ProductsService/TaskDefinition/ExecutionRole",
+                "children": {
+                  "ImportExecutionRole": {
+                    "id": "ImportExecutionRole",
+                    "path": "ProductsService/TaskDefinition/ExecutionRole/ImportExecutionRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.151.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ProductsService/TaskDefinition/ExecutionRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "ecs-tasks.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.151.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "ProductsService/TaskDefinition/ExecutionRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ProductsService/TaskDefinition/ExecutionRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "ecr:BatchCheckLayerAvailability",
+                                    "ecr:BatchGetImage",
+                                    "ecr:GetDownloadUrlForLayer"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::ImportValue": "Ecr:ExportsOutputFnGetAttProductsservice530787E4Arn55BFA5C2"
+                                  }
+                                },
+                                {
+                                  "Action": "ecr:GetAuthorizationToken",
+                                  "Effect": "Allow",
+                                  "Resource": "*"
+                                },
+                                {
+                                  "Action": [
+                                    "logs:CreateLogStream",
+                                    "logs:PutLogEvents"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "LogGroupF5B46931",
+                                      "Arn"
+                                    ]
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "TaskDefinitionExecutionRoleDefaultPolicy1F3406F5",
+                            "roles": [
+                              {
+                                "Ref": "TaskDefinitionExecutionRole8D61C2FB"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.151.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.151.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.151.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.FargateTaskDefinition",
+              "version": "2.151.0"
+            }
+          },
+          "LogGroup": {
+            "id": "LogGroup",
+            "path": "ProductsService/LogGroup",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ProductsService/LogGroup/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "logGroupName": "ProductsService",
+                    "retentionInDays": 30
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                  "version": "2.151.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+              "version": "2.151.0"
+            }
+          },
+          "ProductsService": {
+            "id": "ProductsService",
+            "path": "ProductsService/ProductsService",
+            "children": {
+              "Service": {
+                "id": "Service",
+                "path": "ProductsService/ProductsService/Service",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::Service",
+                  "aws:cdk:cloudformation:props": {
+                    "cluster": {
+                      "Fn::ImportValue": "Cluster:ExportsOutputRefClusterEB0386A796A0E3FE"
+                    },
+                    "deploymentConfiguration": {
+                      "maximumPercent": 200,
+                      "minimumHealthyPercent": 50
+                    },
+                    "desiredCount": 2,
+                    "enableEcsManagedTags": false,
+                    "healthCheckGracePeriodSeconds": 60,
+                    "launchType": "FARGATE",
+                    "loadBalancers": [
+                      {
+                        "targetGroupArn": {
+                          "Fn::ImportValue": "Nlb:ExportsOutputRefAlbProductsServiceAlbListenerProductsServiceAlbTargetGroup790F861CA66747AE"
+                        },
+                        "containerName": "productsService",
+                        "containerPort": 8080
+                      },
+                      {
+                        "targetGroupArn": {
+                          "Fn::ImportValue": "Nlb:ExportsOutputRefNlbProductsServiceNlbListenerProductsServiceNlbTargetGroup8BF1265C563693BE"
+                        },
+                        "containerName": "productsService",
+                        "containerPort": 8080
+                      }
+                    ],
+                    "networkConfiguration": {
+                      "awsvpcConfiguration": {
+                        "assignPublicIp": "DISABLED",
+                        "subnets": [
+                          {
+                            "Fn::ImportValue": "Vpc:ExportsOutputRefVpcPrivateSubnet1Subnet536B997AFD4CC940"
+                          },
+                          {
+                            "Fn::ImportValue": "Vpc:ExportsOutputRefVpcPrivateSubnet2Subnet3788AAA1380949A3"
+                          }
+                        ],
+                        "securityGroups": [
+                          {
+                            "Fn::GetAtt": [
+                              "ProductsServiceSecurityGroupA117EEFC",
+                              "GroupId"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "serviceName": "ProductsService",
+                    "taskDefinition": {
+                      "Ref": "TaskDefinitionB36D86D9"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnService",
+                  "version": "2.151.0"
+                }
+              },
+              "SecurityGroup": {
+                "id": "SecurityGroup",
+                "path": "ProductsService/ProductsService/SecurityGroup",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ProductsService/ProductsService/SecurityGroup/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                      "aws:cdk:cloudformation:props": {
+                        "groupDescription": "ProductsService/ProductsService/SecurityGroup",
+                        "securityGroupEgress": [
+                          {
+                            "cidrIp": "0.0.0.0/0",
+                            "description": "Allow all outbound traffic by default",
+                            "ipProtocol": "-1"
+                          }
+                        ],
+                        "securityGroupIngress": [
+                          {
+                            "cidrIp": "0.0.0.0/0",
+                            "ipProtocol": "tcp",
+                            "fromPort": 8080,
+                            "toPort": 8080,
+                            "description": "from 0.0.0.0/0:8080"
+                          }
+                        ],
+                        "vpcId": {
+                          "Fn::ImportValue": "Vpc:ExportsOutputRefVpc8378EB38272D6E3A"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                      "version": "2.151.0"
+                    }
+                  },
+                  "from NlbAlbSecurityGroup3A96BB8F:8080": {
+                    "id": "from NlbAlbSecurityGroup3A96BB8F:8080",
+                    "path": "ProductsService/ProductsService/SecurityGroup/from NlbAlbSecurityGroup3A96BB8F:8080",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                      "aws:cdk:cloudformation:props": {
+                        "description": "Load balancer to target",
+                        "fromPort": 8080,
+                        "groupId": {
+                          "Fn::GetAtt": [
+                            "ProductsServiceSecurityGroupA117EEFC",
+                            "GroupId"
+                          ]
+                        },
+                        "ipProtocol": "tcp",
+                        "sourceSecurityGroupId": {
+                          "Fn::ImportValue": "Nlb:ExportsOutputFnGetAttAlbSecurityGroup580F65A6GroupId37F3639D"
+                        },
+                        "toPort": 8080
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                      "version": "2.151.0"
+                    }
+                  },
+                  "NlbAlbSecurityGroup3A96BB8F:8080 from": {
+                    "id": "NlbAlbSecurityGroup3A96BB8F:8080 from",
+                    "path": "ProductsService/ProductsService/SecurityGroup/NlbAlbSecurityGroup3A96BB8F:8080 from",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupEgress",
+                      "aws:cdk:cloudformation:props": {
+                        "description": "Load balancer to target",
+                        "destinationSecurityGroupId": {
+                          "Fn::GetAtt": [
+                            "ProductsServiceSecurityGroupA117EEFC",
+                            "GroupId"
+                          ]
+                        },
+                        "fromPort": 8080,
+                        "groupId": {
+                          "Fn::ImportValue": "Nlb:ExportsOutputFnGetAttAlbSecurityGroup580F65A6GroupId37F3639D"
+                        },
+                        "ipProtocol": "tcp",
+                        "toPort": 8080
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupEgress",
+                      "version": "2.151.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+                  "version": "2.151.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.FargateService",
+              "version": "2.151.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "ProductsService/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "ProductsService/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.151.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "ProductsService/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.151.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "ProductsService/CheckBootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnRule",
               "version": "2.151.0"

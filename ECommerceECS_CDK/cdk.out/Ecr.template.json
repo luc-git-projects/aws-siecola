@@ -23,6 +23,27 @@
    }
   }
  },
+ "Outputs": {
+  "ExportsOutputFnGetAttProductsservice530787E4Arn55BFA5C2": {
+   "Value": {
+    "Fn::GetAtt": [
+     "Productsservice530787E4",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "Ecr:ExportsOutputFnGetAttProductsservice530787E4Arn55BFA5C2"
+   }
+  },
+  "ExportsOutputRefProductsservice530787E43817F926": {
+   "Value": {
+    "Ref": "Productsservice530787E4"
+   },
+   "Export": {
+    "Name": "Ecr:ExportsOutputRefProductsservice530787E43817F926"
+   }
+  }
+ },
  "Parameters": {
   "BootstrapVersion": {
    "Type": "AWS::SSM::Parameter::Value<String>",

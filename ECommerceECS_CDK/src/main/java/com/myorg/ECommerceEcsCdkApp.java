@@ -57,6 +57,28 @@ public class ECommerceEcsCdkApp {
         NlbStack nlbStack = new NlbStack(app, "Nlb", nlbStackProps, new NblStackProps(vpcStack.getVpc()));
         nlbStack.addDependency(vpcStack);
 
+
+
+        Map<String, String> productServiceTags = new HashMap<>();
+        productServiceTags.put("team", "SiecolaCode");
+        productServiceTags.put("cost", "ProductsService");
+
+        ProductsServiceStack productsServiceStack = new ProductsServiceStack(app, "ProductsService",
+                StackProps.builder()
+                        .env(environment)
+                        .tags(productServiceTags)
+                        .build(),
+                new ProductsServiceProps(vpcStack.getVpc(),
+                        clusterStack.getCluster(),
+                        nlbStack.getNetworkLoadBalancer(),
+                        nlbStack.getApplicationLoadBalancer(),
+                        ecrStack.getProductsServiceRepository())
+                );
+        productsServiceStack.addDependency(vpcStack);
+        productsServiceStack.addDependency(clusterStack);
+        productsServiceStack.addDependency(nlbStack);
+        productsServiceStack.addDependency(ecrStack);
+
         app.synth();
     }
 }
