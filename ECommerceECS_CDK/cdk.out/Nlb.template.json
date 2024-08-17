@@ -216,6 +216,25 @@
    "Export": {
     "Name": "Nlb:ExportsOutputFnGetAttAlbSecurityGroup580F65A6GroupId37F3639D"
    }
+  },
+  "ExportsOutputFnGetAttNlbBCDB97FEDNSName8C4ADEFF": {
+   "Value": {
+    "Fn::GetAtt": [
+     "NlbBCDB97FE",
+     "DNSName"
+    ]
+   },
+   "Export": {
+    "Name": "Nlb:ExportsOutputFnGetAttNlbBCDB97FEDNSName8C4ADEFF"
+   }
+  },
+  "ExportsOutputRefVpcLink42ED6FF0DCEB9DB7": {
+   "Value": {
+    "Ref": "VpcLink42ED6FF0"
+   },
+   "Export": {
+    "Name": "Nlb:ExportsOutputRefVpcLink42ED6FF0DCEB9DB7"
+   }
   }
  },
  "Parameters": {

@@ -1,0 +1,165 @@
+{
+ "Resources": {
+  "RestApi0C43BF4B": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Name": "ECommerceAPI"
+   },
+   "Metadata": {
+    "aws:cdk:path": "Api/RestApi/Resource"
+   }
+  },
+  "RestApiDeployment180EC503ebf9134759d8099589ec8524628f2f4e": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "Automatically created by the RestApi construct",
+    "RestApiId": {
+     "Ref": "RestApi0C43BF4B"
+    }
+   },
+   "DependsOn": [
+    "RestApiproductsGETA3E4B7C1",
+    "RestApiproducts287512B0"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "Api/RestApi/Deployment/Resource"
+   }
+  },
+  "RestApiDeploymentStageprod3855DE66": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "RestApiDeployment180EC503ebf9134759d8099589ec8524628f2f4e"
+    },
+    "RestApiId": {
+     "Ref": "RestApi0C43BF4B"
+    },
+    "StageName": "prod"
+   },
+   "Metadata": {
+    "aws:cdk:path": "Api/RestApi/DeploymentStage.prod/Resource"
+   }
+  },
+  "RestApiproducts287512B0": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "RestApi0C43BF4B",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "products",
+    "RestApiId": {
+     "Ref": "RestApi0C43BF4B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Api/RestApi/Default/products/Resource"
+   }
+  },
+  "RestApiproductsGETA3E4B7C1": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "ConnectionId": {
+      "Fn::ImportValue": "Nlb:ExportsOutputRefVpcLink42ED6FF0DCEB9DB7"
+     },
+     "ConnectionType": "VPC_LINK",
+     "IntegrationHttpMethod": "GET",
+     "Type": "HTTP_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "http://",
+        {
+         "Fn::ImportValue": "Nlb:ExportsOutputFnGetAttNlbBCDB97FEDNSName8C4ADEFF"
+        },
+        ":8080/api/products"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "RestApiproducts287512B0"
+    },
+    "RestApiId": {
+     "Ref": "RestApi0C43BF4B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Api/RestApi/Default/products/GET/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02MWwrCMBBF19L/ZmwrLsDHlyBCugAZ27HGPhKaiaGU7l1CFPt1zz1cbgH5LocsQW9FVbeiU3eYS8aqTdHbGxrVIJPHCWZJlvdGpcfH8MMTmU5PPQ0c7KqVjA0FF0GS1W6s6ID2X75HkS/ET10HFWkJeHVsHK93S3rGN26KHDLYJi+rlBjdwKonkDE/4O9attEAAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "Api/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "RestApiEndpoint0551178A": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "RestApi0C43BF4B"
+      },
+      ".execute-api.us-east-2.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "RestApiDeploymentStageprod3855DE66"
+      },
+      "/"
+     ]
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

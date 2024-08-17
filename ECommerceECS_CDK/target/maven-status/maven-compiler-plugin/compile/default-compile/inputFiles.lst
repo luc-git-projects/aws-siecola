@@ -1,6 +1,7 @@
 /home/luciano/Courses/aws-siecola/ECommerceECS_CDK/src/main/java/com/myorg/ECommerceEcsCdkApp.java
 /home/luciano/Courses/aws-siecola/ECommerceECS_CDK/src/main/java/com/myorg/NlbStack.java
 /home/luciano/Courses/aws-siecola/ECommerceECS_CDK/src/main/java/com/myorg/EcrStack.java
+/home/luciano/Courses/aws-siecola/ECommerceECS_CDK/src/main/java/com/myorg/ApiStack.java
 /home/luciano/Courses/aws-siecola/ECommerceECS_CDK/src/main/java/com/myorg/ClusterStack.java
 /home/luciano/Courses/aws-siecola/ECommerceECS_CDK/src/main/java/com/myorg/VpcStack.java
 /home/luciano/Courses/aws-siecola/ECommerceECS_CDK/src/main/java/com/myorg/ProductsServiceStack.java

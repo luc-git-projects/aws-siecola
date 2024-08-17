@@ -446,7 +446,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::014498656507:role/cdk-hnb659fds-deploy-role-014498656507-us-east-2",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::014498656507:role/cdk-hnb659fds-cfn-exec-role-014498656507-us-east-2",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-014498656507-us-east-2/1fae7645d18c627fc8e3543002a540f7aa0f8fadf12ddec146ad208afb00ba80.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-014498656507-us-east-2/38184e6faac1e7dc15794ec53dcaf7868f3baa169c8a49cd48f9311b0354aa4b.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -548,6 +548,18 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "ExportsOutputFnGetAttAlbSecurityGroup580F65A6GroupId37F3639D"
+          }
+        ],
+        "/Nlb/Exports/Output{\"Fn::GetAtt\":[\"NlbBCDB97FE\",\"DNSName\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttNlbBCDB97FEDNSName8C4ADEFF"
+          }
+        ],
+        "/Nlb/Exports/Output{\"Ref\":\"VpcLink42ED6FF0\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefVpcLink42ED6FF0DCEB9DB7"
           }
         ],
         "/Nlb/BootstrapVersion": [
@@ -695,6 +707,116 @@
         ]
       },
       "displayName": "ProductsService"
+    },
+    "Api.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "Api.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "Api": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://014498656507/us-east-2",
+      "properties": {
+        "templateFile": "Api.template.json",
+        "terminationProtection": false,
+        "tags": {
+          "cost": "ECommerceInfra",
+          "team": "SiecolaCode"
+        },
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::014498656507:role/cdk-hnb659fds-deploy-role-014498656507-us-east-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::014498656507:role/cdk-hnb659fds-cfn-exec-role-014498656507-us-east-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-014498656507-us-east-2/6157fe385b51fc361295497e8b20bf1571aa1cee3727c9d0e2a6c195c0a90198.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "Api.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::014498656507:role/cdk-hnb659fds-lookup-role-014498656507-us-east-2",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "Nlb",
+        "Api.assets"
+      ],
+      "metadata": {
+        "/Api": [
+          {
+            "type": "aws:cdk:stack-tags",
+            "data": [
+              {
+                "Key": "cost",
+                "Value": "ECommerceInfra"
+              },
+              {
+                "Key": "team",
+                "Value": "SiecolaCode"
+              }
+            ]
+          }
+        ],
+        "/Api/RestApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApi0C43BF4B"
+          }
+        ],
+        "/Api/RestApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApiDeployment180EC503ebf9134759d8099589ec8524628f2f4e"
+          }
+        ],
+        "/Api/RestApi/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApiDeploymentStageprod3855DE66"
+          }
+        ],
+        "/Api/RestApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApiEndpoint0551178A"
+          }
+        ],
+        "/Api/RestApi/Default/products/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApiproducts287512B0"
+          }
+        ],
+        "/Api/RestApi/Default/products/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApiproductsGETA3E4B7C1"
+          }
+        ],
+        "/Api/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/Api/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/Api/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "Api"
     },
     "Tree": {
       "type": "cdk:tree",

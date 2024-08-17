@@ -1285,6 +1285,22 @@
                   "fqn": "aws-cdk-lib.CfnOutput",
                   "version": "2.151.0"
                 }
+              },
+              "Output{\"Fn::GetAtt\":[\"NlbBCDB97FE\",\"DNSName\"]}": {
+                "id": "Output{\"Fn::GetAtt\":[\"NlbBCDB97FE\",\"DNSName\"]}",
+                "path": "Nlb/Exports/Output{\"Fn::GetAtt\":[\"NlbBCDB97FE\",\"DNSName\"]}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.151.0"
+                }
+              },
+              "Output{\"Ref\":\"VpcLink42ED6FF0\"}": {
+                "id": "Output{\"Ref\":\"VpcLink42ED6FF0\"}",
+                "path": "Nlb/Exports/Output{\"Ref\":\"VpcLink42ED6FF0\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.151.0"
+                }
               }
             },
             "constructInfo": {
@@ -1812,6 +1828,233 @@
           "CheckBootstrapVersion": {
             "id": "CheckBootstrapVersion",
             "path": "ProductsService/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.151.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.151.0"
+        }
+      },
+      "Api": {
+        "id": "Api",
+        "path": "Api",
+        "children": {
+          "RestApi": {
+            "id": "RestApi",
+            "path": "Api/RestApi",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "Api/RestApi/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ApiGateway::RestApi",
+                  "aws:cdk:cloudformation:props": {
+                    "name": "ECommerceAPI"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.CfnRestApi",
+                  "version": "2.151.0"
+                }
+              },
+              "Deployment": {
+                "id": "Deployment",
+                "path": "Api/RestApi/Deployment",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "Api/RestApi/Deployment/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGateway::Deployment",
+                      "aws:cdk:cloudformation:props": {
+                        "description": "Automatically created by the RestApi construct",
+                        "restApiId": {
+                          "Ref": "RestApi0C43BF4B"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.CfnDeployment",
+                      "version": "2.151.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.Deployment",
+                  "version": "2.151.0"
+                }
+              },
+              "DeploymentStage.prod": {
+                "id": "DeploymentStage.prod",
+                "path": "Api/RestApi/DeploymentStage.prod",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "Api/RestApi/DeploymentStage.prod/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGateway::Stage",
+                      "aws:cdk:cloudformation:props": {
+                        "deploymentId": {
+                          "Ref": "RestApiDeployment180EC503ebf9134759d8099589ec8524628f2f4e"
+                        },
+                        "restApiId": {
+                          "Ref": "RestApi0C43BF4B"
+                        },
+                        "stageName": "prod"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.CfnStage",
+                      "version": "2.151.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.Stage",
+                  "version": "2.151.0"
+                }
+              },
+              "Endpoint": {
+                "id": "Endpoint",
+                "path": "Api/RestApi/Endpoint",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.151.0"
+                }
+              },
+              "Default": {
+                "id": "Default",
+                "path": "Api/RestApi/Default",
+                "children": {
+                  "products": {
+                    "id": "products",
+                    "path": "Api/RestApi/Default/products",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "Api/RestApi/Default/products/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGateway::Resource",
+                          "aws:cdk:cloudformation:props": {
+                            "parentId": {
+                              "Fn::GetAtt": [
+                                "RestApi0C43BF4B",
+                                "RootResourceId"
+                              ]
+                            },
+                            "pathPart": "products",
+                            "restApiId": {
+                              "Ref": "RestApi0C43BF4B"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.CfnResource",
+                          "version": "2.151.0"
+                        }
+                      },
+                      "GET": {
+                        "id": "GET",
+                        "path": "Api/RestApi/Default/products/GET",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "Api/RestApi/Default/products/GET/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                              "aws:cdk:cloudformation:props": {
+                                "authorizationType": "NONE",
+                                "httpMethod": "GET",
+                                "integration": {
+                                  "type": "HTTP_PROXY",
+                                  "uri": {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "http://",
+                                        {
+                                          "Fn::ImportValue": "Nlb:ExportsOutputFnGetAttNlbBCDB97FEDNSName8C4ADEFF"
+                                        },
+                                        ":8080/api/products"
+                                      ]
+                                    ]
+                                  },
+                                  "integrationHttpMethod": "GET",
+                                  "connectionType": "VPC_LINK",
+                                  "connectionId": {
+                                    "Fn::ImportValue": "Nlb:ExportsOutputRefVpcLink42ED6FF0DCEB9DB7"
+                                  }
+                                },
+                                "resourceId": {
+                                  "Ref": "RestApiproducts287512B0"
+                                },
+                                "restApiId": {
+                                  "Ref": "RestApi0C43BF4B"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                              "version": "2.151.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                          "version": "2.151.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.Resource",
+                      "version": "2.151.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.ResourceBase",
+                  "version": "2.151.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_apigateway.RestApi",
+              "version": "2.151.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "Api/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "Api/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.151.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "Api/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.151.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "Api/CheckBootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnRule",
               "version": "2.151.0"
